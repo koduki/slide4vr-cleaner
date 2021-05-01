@@ -11,5 +11,8 @@ RUN mkdir /app
 ADD app.rb /app
 ADD run.sh /app
 
+RUN curl https://storage.googleapis.com/nklab-artifacts/hwrap -o /usr/bin/hwrap && chmod a+x /usr/bin/hwrap 
+
 WORKDIR /app
-CMD "/app/run.sh"
+ENV PORT=5000
+CMD ["hwrap", "-Dquarkus.http.port=${PORT}", "-Dhwrap.cmd=/app/run.sh"]
